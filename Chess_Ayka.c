@@ -8,13 +8,12 @@ int Rook(Output);
 int Elephant(Output);
 int Pawn(Output);
 
-void	Chess_Ayka(int ac, char *av[]){
+void	main(int ac, char *av[]){
 	int		x = 0;
 	int 	y = 0;
 	int 	Success = 0;
 
-	//printf("%s\n",av[0]);
-	for(int i = 1; i!= ac; ++i) {
+	for(int i = 1; i < ac; ++i) {
 		for(int j = 0; av[i][j] != '\0'; ++j) {
 			if (!Success) {
 				if (av[i][j] != 'K') {
@@ -24,7 +23,7 @@ void	Chess_Ayka(int ac, char *av[]){
 						Success = Queen(Input);
 					} else if (av[i][j] == 'R') {
 						x = i;
-						y = j;printf("r ");
+						y = j; printf("r ");
 						Success = Rook(Input);
 					} else if (av[i][j] == 'E') {
 						x = i;
@@ -46,140 +45,72 @@ void	Chess_Ayka(int ac, char *av[]){
 }
 
 int Queen(Output) {
-	int 	f1 = 1;
-	int 	f2 = 1;
-	int		f3 = 1;
-	int 	f4 = 1;
-	int 	f5 = 1;
-	int 	f6 = 1;
-	int		f7 = 1;
-	int 	f8 = 1;
-	for(int k = 1; (x + k != ac) || (av[x][y + k] != '\0'); ++k) {
-		if (av[x + k][y] != '.') {
-			if (f1) {
-				if (av[x + k][y] == 'K') return 1;
-				else f1 = 0;
-			}
-		}
-		if (av[x][y + k] != '.') {
-			if (f2) {
-				if (av[x][y + k] == 'K') return 1;
-				else f2 = 0;
-			}
-		}
-		if (av[x - k][y] != '.') {
-			if (f3) {
-				if (av[x - k][y] == 'K') return 1;
-				else f3 = 0;
-			}
-		}
-		if (av[x][y - k] != '.') {
-			if (f4) {
-				if (av[x][y - k] == 'K') return 1;
-				else f4 = 0;
-			}
-		}
-		if (av[x + k][y + k] != '.') {
-			if (f5) {
-				if (av[x + k][y + k] == 'K') return 1;
-				else f5 = 0;
-			}
-		}
-		if (av[x - k][y + k] != '.') {
-			if (f6) {
-				if (av[x - k][y + k] == 'K') return 1;
-				else f6 = 0;
-			}
-		}
-		if (av[x + k][y - k] != '.') {
-			if (f7) {
-				if (av[x + k][y - k] == 'K') return 1;
-				else f7 = 0;
-			}
-		}
-		if (av[x - k][y - k] != '.') {
-			if (f8) {
-				if (av[x - k][y - k] == 'K') return 1;
-				else f8 = 0;
-			}
-		}
-	}
-	return 0;
+	short i, j;
+	if((i = (short)Elephant(Input)) + (j = (short)Rook(Input))) {
+		return 1;
+	} else return 0;
 }
 
 int Rook(Output) {
-	int 	f1 = 1;
-	int 	f2 = 1;
-	int		f3 = 1;
-	int 	f4 = 1;
-	for(int k = 1; (x + k != ac) || (av[x][y + k] != '\0'); ++k) {
-		if (av[x + k][y] != '.') {
-			if (f1) {
-				if (av[x + k][y] == 'K') return 1;
-				else f1 = 0;
-			}
+	for(int k = 1; x + k < ac && av[x + k][y] != '\0'; ++k) {
+		if(av[x + k][y] != '.') {
+			if (av[x + k][y] == 'K') return 1;
+			else break;
 		}
-		if (av[x][y + k] != '.') {
-			if (f2) {
-				if (av[x][y + k] == 'K') return 1;
-				else f2 = 0;
-			}
+	}
+	for(int k = 1; x - k != 1 && av[x - k][y] != '\0'; ++k) {
+		if(av[x - k][y] != '.') {
+			if (av[x - k][y] == 'K') return 1;
+			else break;
 		}
-		if (av[x - k][y] != '.') {
-			if (f3) {
-				if (av[x - k][y] == 'K') return 1;
-				else f3 = 0;
-			}
+	}
+	for(int k = 1; av[x][y + k] != '\0'; ++k) {
+		if(av[x][y + k] != '.') {
+			if (av[x][y + k] == 'K') return 1;
+			else break;
 		}
-		if (av[x][y - k] != '.') {
-			if (f4) {
-				if (av[x][y - k] == 'K') return 1;
-				else f4 = 0;
-			}
+	}
+	for(int k = 1; y - k >= 0 && av[x][y - k] != '\0'; ++k) {
+		if(av[x][y - k] != '.') {
+			if (av[x][y - k] == 'K') return 1;
+			else break;
 		}
 	}
 	return 0;
 }
 
 int Elephant(Output) {
-	int 	f1 = 1;
-	int 	f2 = 1;
-	int		f3 = 1;
-	int 	f4 = 1;
-	for(int k = 1; (x + k != ac) || (av[x][y + k] != '\0'); ++k) { //////out
-		if (av[x + k][y + k] != '.') {
-			if (f1) {
-				if (av[x + k][y + k] == 'K') return 1;
-				else f1 = 0;
-			}
+	for(int k = 1; x + k < ac && av[x + k][y + k] != '\0'; ++k) {
+		if(av[x + k][y + k] != '.') {
+			if (av[x + k][y + k] == 'K') return 1;
+			else break;
 		}
-		if (av[x - k][y + k] != '.') {
-			if (f2) {
-				if (av[x - k][y + k] == 'K') return 1;
-				else f2 = 0;
-			}
+	}
+	for(int k = 1; x - k != 1 && av[x - k][y + k] != '\0'; ++k) {
+		if(av[x - k][y + k] != '.') {
+			if (av[x - k][y + k] == 'K') return 1;
+			else break;
 		}
-		if (av[x + k][y - k] != '.') {
-			if (f3) {
-				if (av[x + k][y - k] == 'K') return 1;
-				else f3 = 0;
-			}
+	}
+	for(int k = 1; x + k < ac && y - k >= 0 && av[x + k][y - k] != '\0'; ++k) {
+		if(av[x + k][y - k] != '.') {
+			if (av[x + k][y - k] == 'K') return 1;
+			else break;
 		}
-		if (av[x - k][y - k] != '.') {
-			if (f4) {
-				if (av[x - k][y - k] == 'K') return 1;
-				else f4 = 0;
-			}
+	}
+	for(int k = 1; x - k != 1 && y - k >= 0 && av[x - k][y - k] != '\0'; ++k) {
+		if(av[x - k][y - k] != '.') {
+			if (av[x - k][y - k] == 'K') return 1;
+			else break;
 		}
 	}
 	return 0;
 }
 
 int Pawn(Output) {
-	if(x != 1 && y != 0 && x != ac && av[x][y] != '\0') {
+	if(x != 1 && y != 0 && x < ac && av[x][y] != '\0') {
 		if (av[x - 1][y - 1] == 'K') return 1;
 		else if (av[x - 1][y + 1] == 'K') return 1;
 		else return 0;
 	}
 }
-
